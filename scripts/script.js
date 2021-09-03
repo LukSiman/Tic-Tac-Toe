@@ -1,27 +1,57 @@
 // Gameboard object constructor
 const Gameboard = (() => {
-    let gameBoard = ['X', 'O', 'X', 'O', 'O', 'O', 'X', 'X', 'O'];
-    return {gameBoard}
+    const gameBoard = [['', '', ''], ['', '', ''], ['', '', '']];
+
+    const board = document.querySelector('#board');
+    for (let i = 0; i < gameBoard.length; i++) {
+        for (let j = 0; j < gameBoard[i].length; j++) {
+            const square = document.createElement('button');
+            square.className = 'square';
+            board.appendChild(square);
+        }
+    }
+
+    return { gameBoard }
 })();
 
 // Game constroller constructor
 const Controller = (() => {
-    const displayBoard = () => {
-        let board = document.querySelector('#board');
-        const moves = Gameboard.gameBoard;
-        for(let i = 0; i < moves.length; i++){
-            let square = document.createElement('p');  
-            square.innerHTML = moves[i];          
-            board.appendChild(square);
+    let currentMark;
+
+    const markChecker = () => {
+        if (currentMark === 'X') {
+            currentMark = 'O';
+        } else {
+            currentMark = 'X';
         }
+        return currentMark;
     }
-    return {displayBoard}
+
+    const addMarks = () => {
+        const squares = document.querySelectorAll('.square');
+        squares.forEach(square => {
+            square.addEventListener('click', () => {
+                if (square.innerHTML !== '') {
+                    return;
+                }
+                markChecker();
+                square.innerHTML = currentMark;
+
+                
+            })
+        })
+    }
+
+    return { addMarks }
 })();
 
 // Player object contructor
 const Player = (name) => {
-    const logit = () => console.log(name);
-    return {logit}
+    return { name }
 };
 
-Controller.displayBoard();
+const gameBoard = Gameboard;
+const playerOne = Player('Bob');
+const playerTwo = Player('Lukas');
+const controller = Controller;
+controller.addMarks();
