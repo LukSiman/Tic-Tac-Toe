@@ -62,13 +62,14 @@ ID SELECTORS
   grid-template: repeat(3, auto) / repeat(3, auto);
 }
 
-#board>p{
+#board>button{
   font-size: 50px;
   border: 1px solid black;
   width: 100px;
   height: 100px;
   line-height: 100px;
   text-align: center;
+  cursor: grab;
 }
 
 /**********************************************
