@@ -4,9 +4,9 @@ const Gameboard = (() => {
 
     const board = document.querySelector('#board');
     for (let i = 0; i < gameBoard.length; i++) {
-            const square = document.createElement('button');
-            square.className = 'square';
-            board.appendChild(square);
+        const square = document.createElement('button');
+        square.className = 'square';
+        board.appendChild(square);
     }
 
     return { gameBoard }
@@ -27,6 +27,8 @@ const Controller = (() => {
         return currentMark;
     }
 
+    let round = 0;
+
     const addMarks = () => {
         const squares = document.querySelectorAll('.square');
         squares.forEach(square => {
@@ -37,7 +39,18 @@ const Controller = (() => {
                 markChecker();
                 square.innerHTML = currentMark;
                 updateArray();
-                checkWinner();               
+                ++round;
+                if (!winner) {
+                    if (checkWinner() === 1) {
+                        console.log('X wins!');
+                    } else if (checkWinner() === 0) {
+                        console.log('O wins!');
+                    }
+                }  
+                
+                if(round === 9){
+                    console.log("It's a Tie!");
+                }
             })
         })
     }
@@ -47,27 +60,42 @@ const Controller = (() => {
     const updateArray = () => {
         const board = document.querySelector('#board').children;
         let i = 0;
-        for(playSquare of board){     
-            if(playSquare.innerHTML === 'X'){
+        for (playSquare of board) {
+            if (playSquare.innerHTML === 'X') {
                 playBoard[i] = 1;
-            } else if (playSquare.innerHTML === 'O'){
+            } else if (playSquare.innerHTML === 'O') {
                 playBoard[i] = 0;
             }
             i++;
         }
-    }    
+    }
+
+    let winner = false;
 
     const checkWinner = () => {
-        if( playBoard[0] + playBoard[1] + playBoard[2] === 3 ||
+        if (playBoard[0] + playBoard[1] + playBoard[2] === 3 ||
             playBoard[0] + playBoard[3] + playBoard[6] === 3 ||
             playBoard[0] + playBoard[4] + playBoard[8] === 3 ||
             playBoard[1] + playBoard[4] + playBoard[7] === 3 ||
             playBoard[2] + playBoard[4] + playBoard[6] === 3 ||
             playBoard[2] + playBoard[5] + playBoard[8] === 3 ||
             playBoard[3] + playBoard[4] + playBoard[5] === 3 ||
-            playBoard[6] + playBoard[7] + playBoard[8] === 3 
-            ){
-            console.log('X wins!');
+            playBoard[6] + playBoard[7] + playBoard[8] === 3
+        ) {
+            winner = true;
+            return 1;
+        } else if (
+            playBoard[0] + playBoard[1] + playBoard[2] === 0 ||
+            playBoard[0] + playBoard[3] + playBoard[6] === 0 ||
+            playBoard[0] + playBoard[4] + playBoard[8] === 0 ||
+            playBoard[1] + playBoard[4] + playBoard[7] === 0 ||
+            playBoard[2] + playBoard[4] + playBoard[6] === 0 ||
+            playBoard[2] + playBoard[5] + playBoard[8] === 0 ||
+            playBoard[3] + playBoard[4] + playBoard[5] === 0 ||
+            playBoard[6] + playBoard[7] + playBoard[8] === 0
+        ) {
+            winner = true;
+            return 0;
         }
     }
 
