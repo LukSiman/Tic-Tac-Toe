@@ -48,23 +48,25 @@ const Controller = (() => {
                     }
                 }  
                 
-                if(round === 9){
+                if(round === 9 && !winner){
                     console.log("It's a Tie!");
                 }
             })
         })
     }
 
-    const playBoard = gameBoard.gameBoard;
+    let playBoard = gameBoard.gameBoard;
+    const board = document.querySelector('#board').children;
 
-    const updateArray = () => {
-        const board = document.querySelector('#board').children;
+    const updateArray = () => {        
         let i = 0;
         for (playSquare of board) {
             if (playSquare.innerHTML === 'X') {
                 playBoard[i] = 1;
             } else if (playSquare.innerHTML === 'O') {
                 playBoard[i] = 0;
+            } else {
+                playBoard[i] = '';
             }
             i++;
         }
@@ -98,6 +100,17 @@ const Controller = (() => {
             return 0;
         }
     }
+
+    const resetBtn = document.querySelector('#reset');
+    resetBtn.addEventListener('click', () =>{        
+        for(let playSquare of board){
+            playSquare.innerHTML = '';
+        }
+        round = 0;
+        updateArray();
+        winner = false;
+        currentMark = '';
+    })   
 
     return { addMarks }
 })();
