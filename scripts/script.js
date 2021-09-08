@@ -116,12 +116,24 @@ const Controller = (() => {
 })();
 
 // Player object contructor
-const Player = (name) => {
-    return { name }
+const Player = () => {
+
+    const changeName = () => {
+        const changeBtn = document.querySelector('#change');
+        changeBtn.addEventListener('click', () =>{
+            document.querySelector('#playerOne').innerHTML = prompt();
+        })
+    }
+
+    // initialize player default names
+    // use different player objects for names
+    // use different players for moves?
+
+    return { changeName }
 };
 
 
-const playerOne = Player('Bob');
-const playerTwo = Player('Lukas');
+const playerOne = Player('X');
 const controller = Controller;
 controller.addMarks();
+playerOne.changeName();
