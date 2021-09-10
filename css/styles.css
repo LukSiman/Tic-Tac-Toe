@@ -155,6 +155,60 @@ ID SELECTORS
   font-size: 25px;
 }
 
+#selectorForm{
+  display: grid;
+  grid-template: auto / repeat(2, 1fr);
+  row-gap: 20px;
+  column-gap: 20px;
+  justify-items: center;
+  position: absolute;
+  top: 290px;
+  border: 2px solid #11324D;
+  padding: 20px;
+  background-color: #C1CFC0;
+  border-radius: 10px;
+}
+
+#selectorForm>p{
+  grid-column: span 2;
+  font-size: 25px;
+  color: #11324D;
+  font-weight: bold;
+}
+
+#selectorForm>button{
+  font-family: 'Indie Flower', cursive;
+  font-weight: bold;
+  font-size: 20px;
+  height: 50px;
+  width: 100px;
+  color: #11324D;
+  background-color: #E7E0C9;
+  border: 2px solid #11324D;
+  border-radius: 10px;
+}
+
+#selectorForm>button:hover{
+  filter:sepia(70%);
+}
+
+#selectorForm>button:active{
+  transform: scale(1.1);
+}
+
+#inputForm{
+  position: absolute;
+  top: 60px;
+  border: 2px solid #11324D;
+  padding: 10px;
+  font-family: 'Indie Flower', cursive;
+  font-weight: bold;
+  font-size: 25px;
+  background-color: #E7E0C9;
+  border-radius: 10px;
+  text-align: center;
+}
+
 /**********************************************
 CLASS SELECTORS
 **********************************************/
