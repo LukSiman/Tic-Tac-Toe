@@ -46,9 +46,9 @@ const Controller = (() => {
                     } else if (checkWinner() === 0) {
                         console.log('O wins!');
                     }
-                }  
-                
-                if(round === 9 && !winner){
+                }
+
+                if (round === 9 && !winner) {
                     console.log("It's a Tie!");
                 }
             })
@@ -58,7 +58,7 @@ const Controller = (() => {
     let playBoard = gameBoard.gameBoard;
     const board = document.querySelector('#board').children;
 
-    const updateArray = () => {        
+    const updateArray = () => {
         let i = 0;
         for (playSquare of board) {
             if (playSquare.innerHTML === 'X') {
@@ -102,38 +102,113 @@ const Controller = (() => {
     }
 
     const resetBtn = document.querySelector('#reset');
-    resetBtn.addEventListener('click', () =>{        
-        for(let playSquare of board){
+    resetBtn.addEventListener('click', () => {
+        for (let playSquare of board) {
             playSquare.innerHTML = '';
         }
         round = 0;
         updateArray();
         winner = false;
         currentMark = '';
-    })   
+        if(document.querySelector('#selectorForm')){
+            deleteForm();
+        }        
+        changeNameForm = false;
+    })
+
+
+    changeNameForm = false;
+    const changeBtn = document.querySelector('#change');
+    changeBtn.addEventListener('click', () => {
+        changeName();
+    });
+
+    const changeName = () => {
+        if (changeNameForm) {
+            changeNameForm = false;
+            deleteForm();
+        } else {
+            changeNameForm = true;
+            createForm();
+        }
+    }
+
+    const createForm = () => {
+        let buttons = document.querySelector('#buttons');
+        let nameSelector = document.createElement('div');
+        nameSelector.setAttribute('id', 'selectorForm');
+
+        let nameChangeText = document.createElement('p');
+        nameChangeText.innerHTML = 'Select player to change:';
+
+        let changeOne = document.createElement('button');
+        changeOne.innerHTML = 'Player 1';
+
+        let changeTwo = document.createElement('button');
+        changeTwo.innerHTML = 'Player 2';
+
+        nameSelector.appendChild(nameChangeText);
+        nameSelector.appendChild(changeOne);
+        nameSelector.appendChild(changeTwo);
+        buttons.appendChild(nameSelector);
+
+        changeOne.addEventListener('click', () =>{
+            createInputForm();
+            takeInput(playerOne, 1);
+        });
+
+        changeTwo.addEventListener('click', () =>{
+            createInputForm();
+            takeInput(playerTwo, 2);
+        });
+    }
+
+    const deleteForm = () => {
+        let nameSelector = document.querySelector('#selectorForm');
+        const buttons = document.querySelector('#buttons');
+        buttons.removeChild(nameSelector);
+    }
+
+    const createInputForm = () =>{
+        let form = document.querySelector('#selectorForm');
+        let input = document.createElement('input');
+        input.setAttribute('type', 'text');
+        input.setAttribute('id', 'inputForm');
+        form.appendChild(input);
+    }
+
+    const takeInput = (player, number) => {
+        let form = document.querySelector('#selectorForm');
+        let input = document.querySelector('#inputForm');
+
+        input.addEventListener('keypress', (e) =>{
+            if(e.key === 'Enter'){
+                player = Player(input.value, number);
+                form.removeChild(input); 
+                deleteForm();
+                changeNameForm = false;               
+            }            
+        });
+    }
 
     return { addMarks }
 })();
 
 // Player object contructor
-const Player = () => {
+const Player = (name, number) => {
 
-    const changeName = () => {
-        const changeBtn = document.querySelector('#change');
-        changeBtn.addEventListener('click', () =>{
-            document.querySelector('#playerOne').innerHTML = prompt();
-        })
-    }
+    let playerNumber = number == 1 ? 'One' : 'Two';
 
-    // initialize player default names
-    // use different player objects for names
+    let player = document.querySelector(`#player${playerNumber}`);
+
+    player.innerHTML = name;
+
     // use different players for moves?
 
-    return { changeName }
+    return {}
 };
 
-
-const playerOne = Player('X');
+let playerOne = Player('Player X', 1);
+let playerTwo = Player('Player O', 2);
 const controller = Controller;
 controller.addMarks();
-playerOne.changeName();
